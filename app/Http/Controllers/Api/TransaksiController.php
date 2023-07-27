@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\This;
 
 class TransaksiController extends Controller {
     public function store(Request $requset) {
@@ -80,6 +81,7 @@ class TransaksiController extends Controller {
                 $detail->produk;
             }
         }
+        
 
         if (!empty($transaksis)) {
             return response()->json([
@@ -153,6 +155,40 @@ class TransaksiController extends Controller {
             'firebase_response' => json_decode($response)
         ];
         return $data;
+    }
+
+    public function upload(Request $request, $id) {
+        $transaksi = Transaksi::with(['details.produk', 'user'])->where('id', $id)->first();
+
+        if ($transaksi) {
+
+            $fileName = '';
+            if($request->image->getClientOriginalName()){
+                $file = str_replace(' ', '', $request->image->getClientOriginalName());
+                $fileName = date('mYdHs').rand(1,999).'_'.$file;
+                $request->image->storeAs('public/transfer', $fileName);
+            } else {
+                return $this->error('Gagal memuat data');
+            }
+
+            $transaksi->update([
+                'status'        => 'DI BAYAR',
+                'buktiTransfer' => $fileName
+            ]);
+            // $this->pushNotif('Transaksi Dibayar', "Transaksi produk" . $transaksi->details[0]->produk->name ." berhasil dibayar", $transaksi->user->fcm);
+
+
+    
+            return response()->json()([
+                'success'   => 1,
+                'message'   => 'Berhasil upload bukti transfer',
+                'transaksi' => $transaksi
+            ]);
+        } else{
+            return $this->error('Gagal memuat transaksi');
+        }
+
+        
     }
 
     public function error($pasan) {
