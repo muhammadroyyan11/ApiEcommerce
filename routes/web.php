@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Routing\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,6 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/user', 'UserController');
 Route::resource('/produk', 'ProdukController');
+// Route::resource('/produk/{id}', 'ProdukController@');
 
 Route::resource('/transaksi', 'TransaksiController');
 Route::get('/transaksi/batal/{id}', 'TransaksiController@batal')->name('transaksiBatal');

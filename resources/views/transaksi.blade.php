@@ -87,6 +87,7 @@
                             <th>Total</th>
                             <th>Bank</th>
                             <th>Alamat Pengiriman</th>
+                            <th>Hari Pengiriman</th>
                             <th>Tanggal Pesan</th>
                             <th>Status</th>
                             <th>Bukti TF</th>
@@ -101,6 +102,7 @@
                             <td>{{"Rp.".number_format($data->total_transfer)}}</td>
                             <td>{{ $data->bank }}</td>
                             <td>{{ $data->detail_lokasi }}</td>
+                            <td>{{ $data->hari }}</td>
                             <td>{{ $data->created_at }}</td>
                             <td>{{ $data->status}}</td>
                             <td>

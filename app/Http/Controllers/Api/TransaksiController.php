@@ -19,6 +19,7 @@ class TransaksiController extends Controller {
             'total_harga' => 'required',
             'name' => 'required',
             'jasa_pengiriaman' => 'required',
+            'hari'  => 'required',
             'ongkir' => 'required',
             'total_transfer' => 'required',
             'bank' => 'required',
